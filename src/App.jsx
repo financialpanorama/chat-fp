@@ -98,7 +98,7 @@ const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
     backgroundColor: "#fff",
-    minHeight: "100vh",
+    Height: "100dvh",
     display: "flex",
     flexDirection: "column",
     padding: "16px 130px",
