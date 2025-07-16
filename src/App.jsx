@@ -158,7 +158,7 @@ const styles = {
   },
   input: {
     flex: 1,
-    padding: "12px 150px",
+    padding: "12px 15px",
     border: "1px solid #ccc",
     borderRadius: 8,
     fontSize: 15,
