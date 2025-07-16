@@ -97,18 +97,17 @@ function App() {
 const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
-    backgroundColor: "#fff",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    padding: 16,
-    paddingBottom: 160, // spazio per input fisso
-},
-  chatBox: {
+  backgroundColor: "#fff",
+  minHeight: "100vh",
   display: "flex",
   flexDirection: "column",
-  gap: 12,
-  marginBottom: 12, // per lasciare spazio all'input fisso
+  padding: 16,
+  paddingBottom: 100, // sufficiente spazio per input
+},
+  chatBox: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 12,
 },
   messageCard: {
     display: "flex",
@@ -122,14 +121,16 @@ const styles = {
     width: 40,
     height: 40,
     borderRadius: "50%",
-    backgroundColor: "#e0e0e0",
+    backgroundColor: "#6B00FF",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     fontWeight: "bold",
     fontSize: 16,
-    color: "#333",
-  },
+    color: "#fff",
+    flexShrink: 0,
+    alignSelf: "flex-start",
+},
   nickname: {
     fontWeight: 600,
     marginBottom: 4,
