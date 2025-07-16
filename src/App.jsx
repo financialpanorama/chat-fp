@@ -107,7 +107,7 @@ const styles = {
   chatBox: {
     display: "flex",
     flexDirection: "column",
-    gap: 12,
+    gap: 5,
 },
   messageCard: {
     display: "flex",
