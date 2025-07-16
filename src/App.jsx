@@ -107,10 +107,10 @@ const styles = {
     boxSizing: "border-box", // ← importante per calcolare padding nel layout
 },
   chatBox: {
-    flex: 1,
+    flex: 1, // prende tutto lo spazio disponibile tra top e inputBox
   overflowY: "auto",
-  padding: "0 16px",
-  marginBottom: 20, // spazio per non coprire i messaggi con la barra di input
+  paddingTop: 24,
+  paddingBottom: 24, // non troppo, l’inputBox è già fixed
 },
   messageCard: {
     display: "flex",
@@ -150,14 +150,16 @@ const styles = {
   },
   inputBox: {
     position: "fixed",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    display: "flex",
-    gap: 6,
-    padding: "12px 150px",
-    backgroundColor: "#fff",
-  },
+  bottom: 0,
+  left: 0,
+  right: 0,
+  display: "flex",
+  gap: 8,
+  padding: "16px 130px",
+  backgroundColor: "#fff",
+  borderTop: "1px solid #eee",
+  boxSizing: "border-box",
+},
   input: {
     flex: 1,
     padding: "12px 15px",
