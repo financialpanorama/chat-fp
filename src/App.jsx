@@ -105,9 +105,11 @@ const styles = {
     paddingBottom: 80, // sufficiente spazio per input
 },
   chatBox: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 5,
+    flex: 1,
+    overflowY: "auto",
+    padding: "0 16px",
+    marginBottom: 50, // per non coprire i messaggi con l’input fissomaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+  WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
 },
   messageCard: {
     display: "flex",
@@ -154,7 +156,6 @@ const styles = {
     gap: 6,
     padding: "12px 150px",
     backgroundColor: "#fff",
-    borderTop: "1px solid #eee",
   },
   input: {
     flex: 1,
