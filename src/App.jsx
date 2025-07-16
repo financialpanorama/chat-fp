@@ -108,7 +108,7 @@ const styles = {
     flex: 1,
   overflowY: "auto",
   padding: "0 16px",
-  marginBottom: 50, // spazio per non coprire i messaggi con la barra di input
+  marginBottom: 20, // spazio per non coprire i messaggi con la barra di input
 },
   messageCard: {
     display: "flex",
