@@ -108,9 +108,7 @@ const styles = {
     flex: 1,
   overflowY: "auto",
   padding: "0 16px",
-  marginBottom: 80, // spazio per non coprire i messaggi con la barra di input
-  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
-  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+  marginBottom: 50, // spazio per non coprire i messaggi con la barra di input
 },
   messageCard: {
     display: "flex",
@@ -161,7 +159,7 @@ const styles = {
   input: {
     flex: 1,
     padding: "12px 15px",
-    border: "1px solid #ccc",
+    border: "1px solid #eee",
     borderRadius: 8,
     fontSize: 15,
   },
