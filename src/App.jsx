@@ -97,12 +97,12 @@ function App() {
 const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
-  backgroundColor: "#fff",
-  minHeight: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  padding: 16,
-  paddingBottom: 100, // sufficiente spazio per input
+    backgroundColor: "#fff",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    padding: "16px 24px", // AGGIUNTO SPAZIO ORIZZONTALE QUI
 },
   chatBox: {
     display: "flex",
