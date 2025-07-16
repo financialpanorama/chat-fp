@@ -98,24 +98,25 @@ const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
     backgroundColor: "#fff",
-    height: "100vh",
+    minHeight: "100vh",
     display: "flex",
-
-  },
+    flexDirection: "column",
+    padding: 16,
+    paddingBottom: 160, // spazio per input fisso
+},
   chatBox: {
-    flex: 1,
-    overflowY: "auto",
-    paddingBottom: 16,
-  },
+  display: "flex",
+  flexDirection: "column",
+  gap: 12,
+  marginBottom: 120, // per lasciare spazio all'input fisso
+},
   messageCard: {
     display: "flex",
     alignItems: "flex-start",
     gap: 12,
     marginBottom: 16,
     padding: 12,
-    borderRadius: 12,
-    border: "1px solid #eee",
-    backgroundColor: "#fafafa",
+    backgroundColor: "#ffffffff",
   },
   avatar: {
     width: 40,
