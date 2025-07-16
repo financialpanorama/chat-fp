@@ -102,7 +102,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     padding: "16px 150px",
-    paddingBottom: 80, // sufficiente spazio per input
+    paddingBottom: 50, // sufficiente spazio per input
 },
   chatBox: {
     flex: 1,
