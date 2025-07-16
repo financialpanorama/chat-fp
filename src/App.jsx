@@ -97,19 +97,18 @@ function App() {
 const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
-  backgroundColor: "#fff",
-  height: "100vh",
-  display: "flex",
-  flexDirection: "column",
-  padding: 16, // ← torniamo al padding semplice
-  boxSizing: "border-box",
-  overflow: "hidden", // ← blocca lo scroll esterno non voluto
+    backgroundColor: "#fff",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    padding: "16px 130px",
+    paddingBottom: 50, // sufficiente spazio per input
 },
   chatBox: {
     flex: 1,
   overflowY: "auto",
-  paddingBottom: 80, // ← spazio sufficiente per non coprire i messaggi
-  paddingTop: 12,
+  padding: "0 16px",
+  marginBottom: 20, // spazio per non coprire i messaggi con la barra di input
 },
   messageCard: {
     display: "flex",
@@ -149,16 +148,14 @@ const styles = {
   },
   inputBox: {
     position: "fixed",
-  bottom: 0,
-  left: 0,
-  right: 0,
-  display: "flex",
-  gap: 8,
-  padding: 16,
-  backgroundColor: "#fff",
-  borderTop: "1px solid #eee",
-  zIndex: 10,
-},
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: "flex",
+    gap: 6,
+    padding: "12px 150px",
+    backgroundColor: "#fff",
+  },
   input: {
     flex: 1,
     padding: "12px 15px",
