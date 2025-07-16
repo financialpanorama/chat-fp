@@ -1,6 +1,15 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  serverTimestamp,
+} from 'firebase/firestore';
+import './App.css';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB95_dUbRZjEyqjKFo6mgWR6qQBLGnJ6yI",
@@ -12,110 +21,164 @@ const firebaseConfig = {
   measurementId: "G-W1V12G7BPH"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const messagesRef = collection(db, 'messages');
+initializeApp(firebaseConfig);
+const db = getFirestore();
 
-export default function App() {
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
+function App() {
   const [nickname, setNickname] = useState('');
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const bottomRef = useRef(null);
 
   useEffect(() => {
-    const q = query(messagesRef, orderBy('timestamp'));
+    const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const msgs = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setMessages(msgs);
     });
     return () => unsubscribe();
   }, []);
 
-  const sendMessage = async () => {
-    if (newMessage.trim() === '' || nickname.trim() === '') return;
-    await addDoc(messagesRef, {
-      text: newMessage,
-      nickname,
-      timestamp: new Date()
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSend = async (e) => {
+    e.preventDefault();
+    if (!nickname.trim() || !message.trim()) return;
+    await addDoc(collection(db, 'messages'), {
+      nickname: nickname.trim(),
+      message: message.trim(),
+      createdAt: serverTimestamp(),
     });
-    setNewMessage('');
+    setMessage('');
   };
 
   return (
-    <div style={{
-      maxWidth: "100%",
-      margin: '100% auto',
-      padding: 24,
-      borderRadius: 24,
-      background: '#ffffff',
-      boxShadow: '0 12px 40px rgba(0,0,0,0.05)',
-      fontFamily: 'inherit'
-    }}>
-      <h2 style={{ textAlign: 'center', fontSize: 24, marginBottom: 24 }}>💬 Chat Community</h2>
+    <div style={styles.container}>
+      <h2 style={styles.title}>💬 Forum Financial Panorama</h2>
 
-      <div style={{
-        maxHeight: 300,
-        overflowY: 'auto',
-        padding: 16,
-        background: '#f2f2f7',
-        borderRadius: 16,
-        marginBottom: 24
-      }}>
-        {messages.map(msg => (
-          <div key={msg.id} style={{
-            padding: '10px 14px',
-            marginBottom: 12,
-            background: '#fff',
-            borderRadius: 14,
-            boxShadow: '0 1px 3px rgba(0,0,0,0.05)'
-          }}>
-            <strong style={{ color: '#007aff' }}>{msg.nickname}:</strong> {msg.text}
+      <div style={styles.inputBox}>
+        <input
+          placeholder="Il tuo nome o nickname"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
+          style={styles.input}
+        />
+      </div>
+
+      <div style={styles.messagesBox}>
+        {messages.map((msg) => (
+          <div key={msg.id} style={styles.card}>
+            <div style={styles.avatar}>
+              {msg.nickname?.[0]?.toUpperCase() || 'U'}
+            </div>
+            <div style={styles.content}>
+              <strong>{msg.nickname}</strong>
+              <p style={styles.text}>{msg.message}</p>
+              <span style={styles.timestamp}>
+                {msg.createdAt?.toDate?.().toLocaleString() || '...'}
+              </span>
+            </div>
           </div>
         ))}
+        <div ref={bottomRef}></div>
       </div>
 
-      <input
-        placeholder="Il tuo nome o nickname"
-        value={nickname}
-        onChange={e => setNickname(e.target.value)}
-        style={{
-          padding: 12,
-          width: '100%',
-          marginBottom: 12,
-          borderRadius: 12,
-          border: '1px solid #ccc',
-          outline: 'none'
-        }}
-      />
-
-      <div style={{ display: 'flex', gap: 12 }}>
+      <form onSubmit={handleSend} style={styles.form}>
         <input
-          placeholder="Scrivi un messaggio..."
-          value={newMessage}
-          onChange={e => setNewMessage(e.target.value)}
-          onKeyDown={e => e.key === 'Enter' && sendMessage()}
-          style={{
-            flex: 1,
-            padding: 12,
-            borderRadius: 12,
-            border: '1px solid #ccc',
-            outline: 'none'
-          }}
+          placeholder="Scrivi un messaggio"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          style={styles.input}
         />
-        <button onClick={sendMessage} style={{
-          padding: '12px 20px',
-          background: '#007aff',
-          color: 'white',
-          border: 'none',
-          borderRadius: 12,
-          cursor: 'pointer',
-          transition: 'background 0.2s ease-in-out'
-        }}
-          onMouseOver={(e) => e.target.style.background = '#005ecb'}
-          onMouseOut={(e) => e.target.style.background = '#007aff'}
-        >
+        <button type="submit" style={styles.button}>
           Invia
         </button>
-      </div>
+      </form>
     </div>
   );
 }
+
+const styles = {
+  container: {
+    fontFamily: 'sans-serif',
+    maxWidth: 600,
+    margin: '40px auto',
+    padding: 16,
+    background: '#f9f9f9',
+    borderRadius: 16,
+    boxShadow: '0 0 20px rgba(0,0,0,0.05)',
+  },
+  title: {
+    marginBottom: 24,
+    textAlign: 'center',
+    color: '#111',
+  },
+  inputBox: {
+    marginBottom: 16,
+  },
+  input: {
+    width: '100%',
+    padding: 12,
+    borderRadius: 8,
+    border: '1px solid #ccc',
+    fontSize: 16,
+  },
+  messagesBox: {
+    maxHeight: 400,
+    overflowY: 'auto',
+    marginBottom: 16,
+  },
+  card: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    background: '#fff',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: '50%',
+    background: '#ddd',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    fontSize: 18,
+    marginRight: 12,
+    flexShrink: 0,
+  },
+  content: {
+    flex: 1,
+  },
+  text: {
+    margin: '4px 0',
+    lineHeight: 1.4,
+  },
+  timestamp: {
+    fontSize: 12,
+    color: '#888',
+  },
+  form: {
+    display: 'flex',
+    gap: 8,
+  },
+  button: {
+    background: '#0070f3',
+    color: '#fff',
+    border: 'none',
+    borderRadius: 8,
+    padding: '0 16px',
+    fontSize: 16,
+    cursor: 'pointer',
+  },
+};
+
+export default App;
