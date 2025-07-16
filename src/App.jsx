@@ -98,8 +98,8 @@ const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
     backgroundColor: "#fff",
-    height: "100%",
-    display: "100%",
+    height: "100vh",
+    display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
     padding: 16,
@@ -107,7 +107,7 @@ const styles = {
   chatBox: {
     flex: 1,
     overflowY: "auto",
-    paddingBottom: "100%",
+    paddingBottom: 80,
   },
   messageCard: {
     display: "flex",
@@ -123,7 +123,7 @@ const styles = {
     width: 40,
     height: 40,
     borderRadius: "50%",
-    backgroundColor: "#6B00FF",
+    backgroundColor: "#e0e0e0",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
