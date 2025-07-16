@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import { initializeApp } from 'firebase/app';
+import { useState, useEffect, useRef } from "react";
+import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -7,9 +7,7 @@ import {
   onSnapshot,
   query,
   orderBy,
-  serverTimestamp,
-} from 'firebase/firestore';
-import './App.css';
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB95_dUbRZjEyqjKFo6mgWR6qQBLGnJ6yI",
@@ -21,163 +19,158 @@ const firebaseConfig = {
   measurementId: "G-W1V12G7BPH"
 };
 
-initializeApp(firebaseConfig);
-const db = getFirestore();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 function App() {
-  const [nickname, setNickname] = useState('');
-  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const bottomRef = useRef(null);
+  const [newMessage, setNewMessage] = useState("");
+  const [nickname, setNickname] = useState("");
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
-    const q = query(collection(db, 'messages'), orderBy('createdAt', 'asc'));
+    const q = query(collection(db, "messages"), orderBy("timestamp", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setMessages(msgs);
+      setMessages(
+        snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+      );
     });
     return () => unsubscribe();
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const handleSend = async (e) => {
-    e.preventDefault();
-    if (!nickname.trim() || !message.trim()) return;
-    await addDoc(collection(db, 'messages'), {
-      nickname: nickname.trim(),
-      message: message.trim(),
-      createdAt: serverTimestamp(),
+  const handleSend = async () => {
+    if (!newMessage.trim() || !nickname.trim()) return;
+    await addDoc(collection(db, "messages"), {
+      text: newMessage,
+      nickname,
+      timestamp: new Date(),
     });
-    setMessage('');
+    setNewMessage("");
   };
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>💬 Forum Financial Panorama</h2>
-
-      <div style={styles.inputBox}>
-        <input
-          placeholder="Il tuo nome o nickname"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          style={styles.input}
-        />
-      </div>
-
-      <div style={styles.messagesBox}>
+      <div style={styles.chatBox}>
         {messages.map((msg) => (
-          <div key={msg.id} style={styles.card}>
-            <div style={styles.avatar}>
-              {msg.nickname?.[0]?.toUpperCase() || 'U'}
-            </div>
-            <div style={styles.content}>
-              <strong>{msg.nickname}</strong>
-              <p style={styles.text}>{msg.message}</p>
-              <span style={styles.timestamp}>
-                {msg.createdAt?.toDate?.().toLocaleString() || '...'}
-              </span>
+          <div key={msg.id} style={styles.messageCard}>
+            <div style={styles.avatar}>{msg.nickname[0].toUpperCase()}</div>
+            <div>
+              <div style={styles.nickname}>{msg.nickname}</div>
+              <div style={styles.text}>{msg.text}</div>
+              <div style={styles.time}>
+                {new Date(msg.timestamp?.toDate()).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
             </div>
           </div>
         ))}
-        <div ref={bottomRef}></div>
+        <div ref={messagesEndRef} />
       </div>
-
-      <form onSubmit={handleSend} style={styles.form}>
+      <div style={styles.inputBox}>
         <input
-          placeholder="Scrivi un messaggio"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Nickname"
           style={styles.input}
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
         />
-        <button type="submit" style={styles.button}>
-          Invia
+        <input
+          placeholder="Scrivi un messaggio..."
+          style={styles.input}
+          value={newMessage}
+          onChange={(e) => setNewMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
+        />
+        <button onClick={handleSend} style={styles.button}>
+          ➤
         </button>
-      </form>
+      </div>
     </div>
   );
 }
 
 const styles = {
   container: {
-    fontFamily: 'sans-serif',
-    maxWidth: 600,
-    margin: '40px auto',
+    fontFamily: "-apple-system, Inter, sans-serif",
+    backgroundColor: "#fff",
+    height: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
     padding: 16,
-    background: '#f9f9f9',
-    borderRadius: 16,
-    boxShadow: '0 0 20px rgba(0,0,0,0.05)',
   },
-  title: {
-    marginBottom: 24,
-    textAlign: 'center',
-    color: '#111',
+  chatBox: {
+    flex: 1,
+    overflowY: "auto",
+    paddingBottom: 80,
   },
-  inputBox: {
+  messageCard: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: 12,
     marginBottom: 16,
-  },
-  input: {
-    width: '100%',
     padding: 12,
-    borderRadius: 8,
-    border: '1px solid #ccc',
-    fontSize: 16,
-  },
-  messagesBox: {
-    maxHeight: 400,
-    overflowY: 'auto',
-    marginBottom: 16,
-  },
-  card: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    background: '#fff',
     borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-    boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+    border: "1px solid #eee",
+    backgroundColor: "#fafafa",
   },
   avatar: {
     width: 40,
     height: 40,
-    borderRadius: '50%',
-    background: '#ddd',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginRight: 12,
-    flexShrink: 0,
+    borderRadius: "50%",
+    backgroundColor: "#e0e0e0",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#333",
   },
-  content: {
-    flex: 1,
+  nickname: {
+    fontWeight: 600,
+    marginBottom: 4,
+    fontSize: 14,
   },
   text: {
-    margin: '4px 0',
-    lineHeight: 1.4,
+    fontSize: 15,
+    color: "#333",
   },
-  timestamp: {
+  time: {
     fontSize: 12,
-    color: '#888',
+    color: "#999",
+    marginTop: 4,
   },
-  form: {
-    display: 'flex',
+  inputBox: {
+    position: "fixed",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: "flex",
     gap: 8,
+    padding: 16,
+    backgroundColor: "#fff",
+    borderTop: "1px solid #eee",
+  },
+  input: {
+    flex: 1,
+    padding: 10,
+    border: "1px solid #ccc",
+    borderRadius: 8,
+    fontSize: 14,
   },
   button: {
-    background: '#0070f3',
-    color: '#fff',
-    border: 'none',
+    padding: "0 16px",
+    fontSize: 18,
+    border: "none",
+    backgroundColor: "#111",
+    color: "#fff",
     borderRadius: 8,
-    padding: '0 16px',
-    fontSize: 16,
-    cursor: 'pointer',
+    cursor: "pointer",
   },
 };
 
