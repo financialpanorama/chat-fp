@@ -101,15 +101,15 @@ const styles = {
   height: "100vh",
   display: "flex",
   flexDirection: "column",
-  padding: "0 130px",
+  padding: 16, // ← torniamo al padding semplice
   boxSizing: "border-box",
-  overflow: "hidden", // ← evita scroll fuori controllo
+  overflow: "hidden", // ← blocca lo scroll esterno non voluto
 },
   chatBox: {
     flex: 1,
   overflowY: "auto",
-  paddingTop: 24,
-  paddingBottom: 80, // basta per non sovrapporre l’input fisso
+  paddingBottom: 80, // ← spazio sufficiente per non coprire i messaggi
+  paddingTop: 12,
 },
   messageCard: {
     display: "flex",
@@ -154,10 +154,10 @@ const styles = {
   right: 0,
   display: "flex",
   gap: 8,
-  padding: "16px 130px",
+  padding: 16,
   backgroundColor: "#fff",
   borderTop: "1px solid #eee",
-  boxSizing: "border-box",
+  zIndex: 10,
 },
   input: {
     flex: 1,
