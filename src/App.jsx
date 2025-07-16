@@ -106,10 +106,11 @@ const styles = {
 },
   chatBox: {
     flex: 1,
-    overflowY: "auto",
-    padding: "0 16px",
-    marginBottom: 50, // per non coprire i messaggi con l’input fissomaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
-  WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+  overflowY: "auto",
+  padding: "0 16px",
+  marginBottom: 80, // spazio per non coprire i messaggi con la barra di input
+  maskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
+  WebkitMaskImage: "linear-gradient(to bottom, black 80%, transparent 100%)",
 },
   messageCard: {
     display: "flex",
