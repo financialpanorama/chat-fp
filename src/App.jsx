@@ -100,14 +100,12 @@ const styles = {
     backgroundColor: "#fff",
     height: "100vh",
     display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    padding: 16,
+
   },
   chatBox: {
     flex: 1,
     overflowY: "auto",
-    paddingBottom: 80,
+    paddingBottom: 16,
   },
   messageCard: {
     display: "flex",
