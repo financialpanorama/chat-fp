@@ -101,8 +101,10 @@ const styles = {
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
+    justifyContent: "space-between"
     padding: "16px 130px",
     paddingBottom: 50, // sufficiente spazio per input
+    boxSizing: "border-box", // ← importante per calcolare padding nel layout
 },
   chatBox: {
     flex: 1,
