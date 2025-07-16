@@ -98,11 +98,11 @@ const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
     backgroundColor: "#fff",
-    height: "100%",
+    minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "space-between",
-    padding: "16px 24px", // AGGIUNTO SPAZIO ORIZZONTALE QUI
+    padding: "16px 75px",
+    paddingBottom: 80, // sufficiente spazio per input
 },
   chatBox: {
     display: "flex",
