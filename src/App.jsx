@@ -97,20 +97,19 @@ function App() {
 const styles = {
   container: {
     fontFamily: "-apple-system, Inter, sans-serif",
-    backgroundColor: "#fff",
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-    padding: "16px 130px",
-    paddingBottom: 50, // sufficiente spazio per input
-    boxSizing: "border-box", // ← importante per calcolare padding nel layout
+  backgroundColor: "#fff",
+  height: "100vh",
+  display: "flex",
+  flexDirection: "column",
+  padding: "0 130px",
+  boxSizing: "border-box",
+  overflow: "hidden", // ← evita scroll fuori controllo
 },
   chatBox: {
-    flex: 1, // prende tutto lo spazio disponibile tra top e inputBox
+    flex: 1,
   overflowY: "auto",
   paddingTop: 24,
-  paddingBottom: 24, // non troppo, l’inputBox è già fixed
+  paddingBottom: 80, // basta per non sovrapporre l’input fisso
 },
   messageCard: {
     display: "flex",
