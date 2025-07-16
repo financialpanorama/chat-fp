@@ -107,7 +107,7 @@ const styles = {
   chatBox: {
     flex: 1,
     overflowY: "auto",
-    paddingBottom: 80,
+    paddingBottom: "100%",
   },
   messageCard: {
     display: "flex",
@@ -174,4 +174,4 @@ const styles = {
   },
 };
 
-export default App;
+export default App;cd ~/
