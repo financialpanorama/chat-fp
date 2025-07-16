@@ -108,7 +108,7 @@ const styles = {
   display: "flex",
   flexDirection: "column",
   gap: 12,
-  marginBottom: 120, // per lasciare spazio all'input fisso
+  marginBottom: 12, // per lasciare spazio all'input fisso
 },
   messageCard: {
     display: "flex",
