@@ -101,7 +101,7 @@ const styles = {
     minHeight: "100vh",
     display: "flex",
     flexDirection: "column",
-    padding: "16px 150px",
+    padding: "16px 130px",
     paddingBottom: 50, // sufficiente spazio per input
 },
   chatBox: {
